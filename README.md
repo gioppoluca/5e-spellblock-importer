@@ -1,11 +1,11 @@
 ![](https://img.shields.io/badge/Foundry-v10-informational)
 <!--- Downloads @ Latest Badge -->
 <!--- replace <user>/<repo> with your username/repository -->
-<!--- ![Latest Release Download Count](https://img.shields.io/github/downloads/<user>/<repo>/latest/module.zip) -->
+![Latest Release Download Count](https://img.shields.io/github/downloads/gioppoluca/5e-spellblock-importer/latest/module.zip)
 
 <!--- Forge Bazaar Install % Badge -->
 <!--- replace <your-module-name> with the `name` in your manifest -->
-<!--- ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2F<your-module-name>&colorB=4aa94a) -->
+![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2F5e-spellblock-importer&colorB=4aa94a)
 
 
 # How to use this Template to create a versioned Release
@@ -64,8 +64,18 @@ When listing a new version, Version should be the version number you set above, 
 Clicking "Save" in the bottom right will save the new version, which means that anyone installing your module from within Foundry will get that version, and a post will be generated in the #release-announcements channel on the official Foundry VTT Discord.
 
 
-# FoundryVTT Module
+# 5e Spellblock Importer
 
-Does something, probably
+Do you have a number of homebrewed spells around that you want to use in your foundry 5e game?  Are you tired of manually entering all of them?
 
-## Changelog
+5e Spellblock Importer got you covered! You can now copy and paste the standard spell format in the import dialog and "Voilà!" the new spell item is ready to be used or further customized.
+
+## Acknoledments
+Thanks to [ArcaneRoboBrain](https://foundryvtt.com/community/arcanerobobrain) for the creation of [5e Statblock importer](https://foundryvtt.com/packages/5e-statblock-importer) from which module i've taken code and inspiration.
+
+## Support
+Please open issues on this repo for any problems that you can have using this module.
+
+If you want to support this work 
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png 'Buy Me A Coffee')](ttps://www.buymeacoffee.com/lucagioppo)
+<
