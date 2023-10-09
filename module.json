@@ -28,7 +28,7 @@
     ]
   },
   "esmodules": [
-    "scripts/spbi.js"
+    "scripts/module.js"
   ],
   "styles": [
     "styles/spbi.css"

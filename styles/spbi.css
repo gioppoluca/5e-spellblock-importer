@@ -1,0 +1,28 @@
+#spbi-main-button {
+    width: 97%;
+}
+
+#spbi-bottom {
+    display: flex;
+    gap: 5px;
+}
+
+#spbi-import-text {
+    align-self: center;
+}
+
+#spbi-import-select {
+    width: 33%;
+    align-self: center;
+}
+
+#spbi-import-button {
+    width: 33%;
+    margin-left: auto;
+}
+
+#spbi-input {
+    height: 500px;
+    margin-bottom: 5px;
+    resize: none;
+}
