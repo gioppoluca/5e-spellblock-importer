@@ -1,5 +1,5 @@
 export const spbiConfig = {};
 
 spbiConfig.options = {
-    "debug": true
+    "debug": false
 }

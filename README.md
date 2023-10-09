@@ -13,6 +13,18 @@ Do you have a number of homebrewed spells around that you want to use in your fo
 
 5e Spellblock Importer got you covered! You can now copy and paste the standard spell format in the import dialog and "Voilà!" the new spell item is ready to be used or further customized.
 
+You will find this button in the bottom of the **Items** tab:
+![Import Button](doc/item-button.png)
+It will open the import dialog
+![Import Dialog](doc/import-dialog.png)
+
+You can paste and edit, if necessary, the spellblock.
+
+The important thing is that the spell name **has** to be the first line of the block.
+
+When you are satisfied you can press the **Import Spell** button and you will see the spell imported in your world.
+![Imported Spell](doc/imported-spell.png)
+
 ## Acknoledments
 Thanks to [ArcaneRoboBrain](https://foundryvtt.com/community/arcanerobobrain) for the creation of [5e Statblock importer](https://foundryvtt.com/packages/5e-statblock-importer) from which module i've taken code and inspiration.
 
