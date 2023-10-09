@@ -1,7 +1,7 @@
 {
-  "id": "module",
-  "title": "New Module",
-  "description": "",
+  "id": "5e-spellblock-importer",
+  "title": "5e Spellblock Importer",
+  "description": "Import spells statblocks for D&D 5e",
   "version": "#{VERSION}#",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
@@ -12,23 +12,29 @@
   },
   "authors": [
     {
-      "name": "The League of Extraordinary FVTT Developers",
-      "url": "https://github.com/League-of-Foundry-Developers",
-      "discord": "discordID#0001"
+      "name": "Luca Gioppo",
+      "url": "https://github.com/gioppoluca",
+      "discord": "gioppoluca"
     }
   ],
   "relationships": {
-    "systems": [],
-    "requires": []
+    "systems": [
+      {
+        "id": "dnd5e",
+        "compatibility": {
+          "verified": "2.3.0"
+        }
+      }
+    ]
   },
   "esmodules": [
-    "scripts/module.js"
-  ],
-  "scripts": [
-    "scripts/lib/lib.js"
+    "scripts/spbi.js"
   ],
   "styles": [
-    "styles/module.css"
+    "styles/spbi.css"
+  ],
+  "templates": [
+    "./templates/spbiWindow.html"
   ],
   "languages": [
     {
