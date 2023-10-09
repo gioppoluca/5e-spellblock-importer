@@ -78,4 +78,4 @@ Please open issues on this repo for any problems that you can have using this mo
 
 If you want to support this work 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png 'Buy Me A Coffee')](ttps://www.buymeacoffee.com/lucagioppo)
-<
+<a href="https://www.buymeacoffee.com/lucagioppo" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
