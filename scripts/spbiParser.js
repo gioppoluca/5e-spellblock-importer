@@ -4,11 +4,11 @@ import {
 
 
 export class spbiParser {
-    static #spellLevelSchool = /^((?<level>\d+)?(nd|rd|st|th)?[-\t ]level?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?/i
+    static #spellLevelSchool = /^((?<level>\d+)?(nd|rd|st|th)?[-\t ]?(level|cantrip)?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?(\((?<ritual>ritual)\))?/i
     static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action))/i
     static #duration = /(duration)[:\s]*(?<conc>concentration, up to|Concentration,)?\s?((?<amount>\d*)?\s?(?<time>permanent|until dispelled or triggered|until dispelled|special|hours|minutes|rounds|months|turns|years|round|minute|hour|month|turn|year|instantaneous))/i
     static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<components>.*)\))?/i
-    
+    static #source = /source[: \t-]*(?<source>.*)/i
     static #range = /(range)[:\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|special, see below|special)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
 
@@ -100,6 +100,7 @@ export class spbiParser {
         rest = await this.duration(rest, spellObj);
         rest = await this.components(rest, spellObj);
         rest = await this.range(rest, spellObj);
+        rest = await this.source(rest, spellObj);
         console.log(rest);
         rest = rest.replace(this.#text, ".<br/>");
         spellObj.system.description.value = rest;
@@ -126,6 +127,7 @@ export class spbiParser {
             spbiUtils.log(this.schoolMap[spellLevelSchool.groups.school.toLowerCase()]);
             spellObj.system.school = this.schoolMap[spellLevelSchool.groups.school.toLowerCase()]
             spbiUtils.log(spellLevelSchool.groups.spelltype);
+            spellObj.system.components.ritual = spellLevelSchool.groups.ritual ? true : false;
         }
         return rest.replace(this.#spellLevelSchool, "");
     }
@@ -142,7 +144,7 @@ export class spbiParser {
         if (castTime) {
             spbiUtils.log(castTime.groups.amount);
             activation.cost = castTime.groups.amount
-            activation.type = castTime.groups.act
+            activation.type = castTime.groups.act.toLowerCase()
             spellObj.system.activation = activation
         }
         return rest.replace(this.#castingTime, "");
@@ -204,5 +206,15 @@ export class spbiParser {
         }
         
         return rest.replace(this.#range, "");
+    }
+
+    static async source(rest, spellObj) {
+        console.log(rest)
+        const compSource = this.#source.exec(rest);
+        console.log(compSource);
+        if (compSource) {
+            spellObj.system.source = compSource.groups.source ? compSource.groups.source : "";
+        }
+        return rest.replace(this.#source, "");
     }
 }
