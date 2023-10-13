@@ -40,6 +40,7 @@ export class spbiWindow extends Application {
         super.activateListeners(html);
 
         const folderSelect = $("#spbi-import-select")[0];
+        const typeSelect = $("#spbi-import-type")[0];
 
         // Add a default option.
         const noneFolder = "None";
@@ -52,25 +53,27 @@ export class spbiWindow extends Application {
 
         const importButton = $("#spbi-import-button");
         importButton.on("click", async function () {
-            spbiUtils.log("Clicked import button");
+            console.log("Clicked import button");
 
             // TODO: let user define the folder that the actor goes into
-/*
-            const lines = $("#spbi-input")
-                .val()
-                .trim()
-                .split(/\n/g)
-                .filter(str => str.length);
-*/
+            /*
+                        const lines = $("#spbi-input")
+                            .val()
+                            .trim()
+                            .split(/\n/g)
+                            .filter(str => str.length);
+            */
             const content = $("#spbi-input").val();
             const selectedFolder = folderSelect.options[folderSelect.selectedIndex].text;
+            const selectedType = typeSelect.options[typeSelect.selectedIndex].value;
+            console.log(selectedType)
             const selectedFolderId = selectedFolder == noneFolder ? null : [...game.folders.keys()][folderSelect.selectedIndex - 1];
 
             if (spbiConfig.options.debug) {
-                await spbiParser.parseInput(content, selectedFolderId);
+                await spbiParser.parseInput(content, selectedFolderId, selectedType);
             } else {
                 try {
-                    await spbiParser.parseInput(content, selectedFolderId);
+                    await spbiParser.parseInput(content, selectedFolderId, selectedType);
                 } catch (error) {
                     ui.notifications.error("5E SPELLBLOCK IMPORTER: An error has occured. Please report it using the module link so it can get fixed.")
                 }

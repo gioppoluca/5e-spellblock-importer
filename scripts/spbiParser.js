@@ -5,13 +5,19 @@ import {
 
 export class spbiParser {
     static #spellLevelSchool = /^((?<level>\d+)?(nd|rd|st|th)?[-\t ]?(level|cantrip)?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?(\((?<ritual>ritual)\))?/i
-    static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action))/i
+    static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action|minutes|reaction))/i
     static #duration = /(duration)[:\s]*(?<conc>concentration, up to|Concentration,)?\s?((?<amount>\d*)?\s?(?<time>permanent|until dispelled or triggered|until dispelled|special|hours|minutes|rounds|months|turns|years|round|minute|hour|month|turn|year|instantaneous))/i
     static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<components>.*)\))?/i
     static #source = /source[: \t-]*(?<source>.*)/i
     static #range = /(range)[:\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|special, see below|special)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
 
+    static activationMap = {
+        "action": "action",
+        "minutes": "minute",
+        "bonus action": "bonus",
+        "reaction": "reaction"
+    };
     static schoolMap = {
         "abjuration": "abj",
         "conjuration": "con",
@@ -63,16 +69,33 @@ export class spbiParser {
         "sphere": "sphere"
     }
 
-    static async parseInput(content, selectedFolderId) {
+    static async parseInput(content, selectedFolderId, selectedType) {
         spbiUtils.log(content);
         spbiUtils.log(selectedFolderId);
+        console.log(selectedType)
+
         // Clean up string and remove all empty lines and trim existing ones
         let cleaned = content.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "");
         cleaned = cleaned.split(/\r?\n/).filter(line => line.trim() !== '').join('\n')
         spbiUtils.log(cleaned);
         // First line will be name
-        var lines = cleaned.split("\n");   // split all lines into array
-        var spellName = lines.shift();   // read and remove first line
+        switch (selectedType) {
+            case "spell":
+                await spbiParser.parseSpell(cleaned, selectedFolderId);
+                break;
+        
+            default:
+                console.log("switch default")
+                break;
+        }
+        
+        //     // re-join the remaining lines
+
+    }
+
+    static async parseSpell(cleaned, selectedFolderId) {
+        var lines = cleaned.split("\n"); // split all lines into array
+        var spellName = lines.shift(); // read and remove first line
         var rest = lines.join("\n");
         var spellObj = {
             name: spbiUtils.capitalizeAll(spellName),
@@ -94,7 +117,7 @@ export class spbiParser {
                 }
             },
             folder: selectedFolderId
-        }
+        };
         rest = await this.mapLevelSchool(rest, spellObj);
         rest = await this.castingTime(rest, spellObj);
         rest = await this.duration(rest, spellObj);
@@ -104,15 +127,13 @@ export class spbiParser {
         console.log(rest);
         rest = rest.replace(this.#text, ".<br/>");
         spellObj.system.description.value = rest;
-        console.log(spellObj)
+        console.log(spellObj);
 
         const spell = await Item.create(spellObj);
         spbiUtils.log(spell);
 
         // Open the sheet.
         spell.sheet.render(true);
-        //     // re-join the remaining lines
-
     }
 
     static async mapLevelSchool(rest, spellObj) {
@@ -144,7 +165,7 @@ export class spbiParser {
         if (castTime) {
             spbiUtils.log(castTime.groups.amount);
             activation.cost = castTime.groups.amount
-            activation.type = castTime.groups.act.toLowerCase()
+            activation.type = this.activationMap[castTime.groups.act.toLowerCase()];
             spellObj.system.activation = activation
         }
         return rest.replace(this.#castingTime, "");
