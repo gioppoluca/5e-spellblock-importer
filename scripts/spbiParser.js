@@ -254,6 +254,17 @@ export class spbiParser {
         spell.sheet.render(true);
     }
 
+    /**
+     * Parses the spell level and school from the input string, and assigns them to the spell data object.
+     * 
+     * @param {string} rest - The input string after extracting the spell name
+     * @param {Object} spellObj - The spell data object to populate 
+     * 
+     * Uses a regex to match the level, school, and ritual tags. 
+     * Assigns the level and school values to the spellObj.
+     * Handles cantrips by setting level 0.
+     * Returns the input string with the matched text removed.
+    */
     static async mapLevelSchool(rest, spellObj) {
         //var levelString = lines.shift();
         console.log(rest)
