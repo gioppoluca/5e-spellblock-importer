@@ -43,9 +43,9 @@
       "path": "languages/en.json"
     }
   ],
-  "url": "#{URL}#",
-  "manifest": "#{MANIFEST}#",
-  "download": "#{DOWNLOAD}#",
+  "url": "https://github.com/rarewt/5e-spellblock-importer",
+  "manifest": "https://raw.githubusercontent.com/rarewt/5e-spellblock-importer/master/module.json",
+  "download": "https://github.com/gioppoluca/5e-spellblock-importer/releases/download/1.2.1/module.zip",
   "license": "LICENSE",
   "readme": "README.md",
   "media": [
