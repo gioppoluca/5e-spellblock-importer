@@ -26,7 +26,8 @@ You can paste and edit, if necessary, the spellblock or the itemblock.
 Remeber to choose in the **small dialog** if you are importing a spell or an item.
 
 The important thing is that the spell or item name **has** to be the first line of the block.
-
+Here is an example of a spellblock:
+![Import Dialog with spell](doc/import-dialog-spell.png)
 When you are satisfied you can press the **Import** button and you will see the spell or item imported in your world.
 ![Imported Spell](doc/imported-spell.png)
 
