@@ -7,7 +7,8 @@ export class spbiParser {
     static #spellLevelSchool = /^((?<level>\d+)?(nd|rd|st|th)?[-\t ]?(level|cantrip)?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?(\((?<ritual>ritual)\))?/i
     static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action|minutes|reaction))/i
     static #duration = /(duration)[:\s]*(?<conc>concentration, up to|Concentration,)?\s?((?<amount>\d*)?\s?(?<time>permanent|until dispelled or triggered|until dispelled|special|hours|minutes|rounds|months|turns|years|round|minute|hour|month|turn|year|instantaneous))/i
-    static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<components>.*)\))?/i
+    static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<materials_inline>.*)\))?/i
+    static #materials = /(materials)[:\s]*((?<materials>.*))?/i
     static #source = /source[: \t-]*(?<source>.*)/i
     static #range = /(range)[:\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|special, see below|special)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
@@ -215,27 +216,48 @@ export class spbiParser {
         var lines = cleaned.split("\n"); // split all lines into array
         var spellName = lines.shift(); // read and remove first line
         var rest = lines.join("\n");
-        var spellObj = {
-            name: spbiUtils.capitalizeAll(spellName),
-            type: "spell",
-            img: "modules/5e-spellblock-importer/img/spell.png",
-            system: {
-                components: {
-                    concentration: false,
-                    material: false,
-                    ritual: false,
-                    somatic: false,
-                    vocal: false
+        var properties = new Set();
+        var spellObj = null;
+        if (foundry.utils.isNewerVersion(game.system.version, '2.4.1')) {
+
+            spellObj = {
+                name: spbiUtils.capitalizeAll(spellName),
+                type: "spell",
+                img: "modules/5e-spellblock-importer/img/spell.png",
+                system: {
+                    description: {
+                        value: ""
+                    },
+                    materials: {
+                        value: ""
+                    }
                 },
-                description: {
-                    value: ""
+                folder: selectedFolderId
+            };
+            spellObj.system.properties = properties;
+        } else {
+            spellObj = {
+                name: spbiUtils.capitalizeAll(spellName),
+                type: "spell",
+                img: "modules/5e-spellblock-importer/img/spell.png",
+                system: {
+                    components: {
+                        concentration: false,
+                        material: false,
+                        ritual: false,
+                        somatic: false,
+                        vocal: false
+                    },
+                    description: {
+                        value: ""
+                    },
+                    materials: {
+                        value: ""
+                    }
                 },
-                materials: {
-                    value: ""
-                }
-            },
-            folder: selectedFolderId
-        };
+                folder: selectedFolderId
+            };
+        }
         rest = await this.mapLevelSchool(rest, spellObj);
         rest = await this.castingTime(rest, spellObj);
         rest = await this.duration(rest, spellObj);
@@ -277,7 +299,13 @@ export class spbiParser {
             spbiUtils.log(this.schoolMap[spellLevelSchool.groups.school.toLowerCase()]);
             spellObj.system.school = this.schoolMap[spellLevelSchool.groups.school.toLowerCase()]
             spbiUtils.log(spellLevelSchool.groups.spelltype);
-            spellObj.system.components.ritual = spellLevelSchool.groups.ritual ? true : false;
+            if (foundry.utils.isNewerVersion(game.system.version, '2.4.1')) {
+                if (spellLevelSchool.groups.ritual) {
+                    spellObj.system.properties.add("ritual")
+                }
+            } else {
+                spellObj.system.components.ritual = spellLevelSchool.groups.ritual ? true : false;
+            }
         }
         return rest.replace(this.#spellLevelSchool, "");
     }
@@ -313,7 +341,13 @@ export class spbiParser {
             duration.value = durationReg.groups.amount;
             duration.units = this.timeMap[durationReg.groups.time.toLowerCase()];
             spellObj.system.duration = duration;
-            spellObj.system.components.concentration = durationReg.groups.conc ? true : false;
+            if (foundry.utils.isNewerVersion(game.system.version, '2.4.1')) {
+                if (durationReg.groups.conc) {
+                    spellObj.system.properties.add("concentration")
+                }
+            } else {
+                spellObj.system.components.concentration = durationReg.groups.conc ? true : false;
+            }
         }
         return rest.replace(this.#duration, "");
     }
@@ -323,10 +357,32 @@ export class spbiParser {
         const compReg = this.#comps.exec(rest);
         console.log(compReg);
         if (compReg) {
-            spellObj.system.components.vocal = compReg.groups.vocal ? true : false;
-            spellObj.system.components.material = compReg.groups.material ? true : false;
-            spellObj.system.components.somatic = compReg.groups.somatic ? true : false;
-            spellObj.system.materials.value = compReg.groups.components ? compReg.groups.components : "";
+            if (foundry.utils.isNewerVersion(game.system.version, '2.4.1')) {
+                if (compReg.groups.vocal) {
+                    spellObj.system.properties.add("vocal")
+                }
+                if (compReg.groups.material) {
+                    spellObj.system.properties.add("material")
+                }
+                if (compReg.groups.somatic) {
+                    spellObj.system.properties.add("somatic")
+                }
+                if (compReg.groups.materials_inline) {
+                    spellObj.system.properties.add("material")
+                    spellObj.system.materials.value = compReg.groups.materials_inline
+                } else {
+                    const matReg = this.#materials.exec(rest);
+                    if (matReg.groups.materials) {
+                        spellObj.system.materials.value = matReg.groups.materials;
+                    }
+                    rest.replace(this.#materials, "")
+                }
+            } else {
+                spellObj.system.components.vocal = compReg.groups.vocal ? true : false;
+                spellObj.system.components.material = compReg.groups.material ? true : false;
+                spellObj.system.components.somatic = compReg.groups.somatic ? true : false;
+                spellObj.system.materials.value = compReg.groups.components ? compReg.groups.components : "";
+            }
         }
         return rest.replace(this.#comps, "");
     }

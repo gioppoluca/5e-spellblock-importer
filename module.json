@@ -6,15 +6,16 @@
   "library": "false",
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
-    "minimum": 10,
-    "verified": 10,
-    "maximum": 11
+    "minimum": "10",
+    "verified": "12",
+    "maximum": "12"
   },
   "authors": [
     {
       "name": "Luca Gioppo",
       "url": "https://github.com/gioppoluca",
-      "discord": "gioppoluca"
+      "discord": "gioppoluca",
+      "flags": {}
     }
   ],
   "relationships": {
@@ -23,7 +24,8 @@
         "id": "dnd5e",
         "compatibility": {
           "verified": "2.3.0"
-        }
+        },
+        "type": "system"
       }
     ]
   },
@@ -33,14 +35,12 @@
   "styles": [
     "styles/spbi.css"
   ],
-  "templates": [
-    "./templates/spbiWindow.html"
-  ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "languages/en.json"
+      "path": "languages/en.json",
+      "flags": {}
     }
   ],
   "url": "#{URL}#",
@@ -51,7 +51,9 @@
   "media": [
     {
       "type": "icon",
-      "url": "https://raw.githubusercontent.com/gioppoluca/5e-spellblock-importer/master/img/spellblock-512.jpg"
+      "url": "https://raw.githubusercontent.com/gioppoluca/5e-spellblock-importer/master/img/spellblock-512.jpg",
+      "loop": false,
+      "flags": {}
     }
   ]
 }
