@@ -47,7 +47,7 @@ export class spbiWindow extends Application {
         folderSelect.add(new Option(noneFolder));
 
         // Add the available folders.
-        for (const folder of [...game.folders]) {
+        for (const folder of [...game.folders.filter((f)=>f.type==='Item')]) {
             folderSelect.add(new Option(folder.name));
         }
 
