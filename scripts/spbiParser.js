@@ -9,7 +9,8 @@ export class spbiParser {
     static #duration = /(duration)[:\s]*(?<conc>concentration, up to|Concentration,)?\s?((?<amount>\d*)?\s?(?<time>permanent|until dispelled or triggered|until dispelled|special|hours|minutes|rounds|months|turns|years|round|minute|hour|month|turn|year|instantaneous))/i
     static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<materials_inline>.*)\))?/i
     static #materials = /(materials)[:\s]*((?<materials>.*))?/i
-    static #source = /source[: \t-]*(?<source>.*)/i
+    static #classes = /(classes|Available for)[:\s]*((?<classes>.*))?/i
+    static #source = /source:[ \t-]*(?<source>.*)/i
     static #range = /(range)[:\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|special, see below|special)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
     static #item = /^(?<type>ammunition|bomb|oil|poison|adventuring gear|wondrous item|potion|weapon|armor|ring|staff|wand)?[ ]?(\((?<subtype>firearm|longsword|tattoo|shield|[^)]*)\))?[, ]*(?<rarity>very rare|rare|uncommon|legendary|artifact)?[ ]?(\((?<attunement>requires attunement by a|requires attunement)[ ]?(?<attuning_class>.*)?\))?/i
@@ -264,7 +265,17 @@ export class spbiParser {
         rest = await this.components(rest, spellObj);
         rest = await this.range(rest, spellObj);
         rest = await this.source(rest, spellObj);
+        // analyze classes as last
+        const classes = this.#classes.exec(rest);
+        var the_classes = [];
+        console.log(classes);
+        if (classes) {
+            spbiUtils.log(classes.groups.classes);
+            the_classes = classes.groups.classes.split(",").map((a_class) => a_class.trim());
+        }
+        rest = rest.replace(this.#classes, "");
         console.log(rest);
+
         rest = rest.replace(this.#text, ".<br/>");
         spellObj.system.description.value = rest;
         console.log(spellObj);
@@ -272,6 +283,38 @@ export class spbiParser {
         const spell = await Item.create(spellObj);
         spbiUtils.log(spell);
 
+        var spell_journal = game.journal.getName('imported-spells');
+        console.log(spell_journal);
+        console.log(the_classes);
+        if (!spell_journal) {
+            console.log("Creating journal");
+            spell_journal = await JournalEntry.create({
+                name: 'imported-spells',
+            });
+            console.log(spell_journal);
+            console.log(the_classes);
+            var spells = new Set();
+            spells.add(spell.uuid);
+            console.log(spells);
+            for (const theclass of the_classes) {
+                console.log(theclass);
+                var data = [{
+                    name: theclass,
+                    type: 'spells',
+                    system: {
+                        identifier: theclass,
+                        grouping: "level",
+                        type: "class",
+                        spells: { 0: spell.uuid },
+                    }
+                }];
+                var the_page = await spell_journal.createEmbeddedDocuments('JournalEntryPage', data);
+                //the_page.system.spells = new Set();
+                //the_page.system.spells.add(spell.uuid);
+            }
+        } else {
+
+        }
         // Open the sheet.
         spell.sheet.render(true);
     }
@@ -326,6 +369,17 @@ export class spbiParser {
             spellObj.system.activation = activation
         }
         return rest.replace(this.#castingTime, "");
+    }
+
+    static async classes(rest, the_classes) {
+        console.log(rest)
+        const classes = this.#classes.exec(rest);
+        console.log(classes);
+        if (classes) {
+            spbiUtils.log(classes.groups.classes);
+            the_classes = classes.groups.classes.split(",").map((a_class) => a_class.trim());
+        }
+        return rest.replace(this.#classes, "");
     }
 
     static async duration(rest, spellObj) {
