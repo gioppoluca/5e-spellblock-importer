@@ -1,4 +1,9 @@
 
+## [1.3.3] - 2024-08-05
+### :bug: Bug Fixes
+- [`655b347`](https://github.com/gioppoluca/5e-spellblock-importer/commit/655b347aee1dc35572fddf1abb6ba607a9321339) - wrong ci
+
+
 ## [1.3.2] - 2024-08-05
 ### :sparkles: New Features
 - [`d70c116`](https://github.com/gioppoluca/5e-spellblock-importer/commit/d70c1161dfd69f14a0cac356c5e5abb873e1f74b) - initial implementation of spell list
@@ -25,3 +30,4 @@
 [1.2.0]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.1.0...1.2.0
 [1.2.1]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.2.0...1.2.1
 [1.3.2]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.1...1.3.2
+[1.3.3]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.2...1.3.3
