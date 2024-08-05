@@ -172,7 +172,7 @@ jobs:
           method: "POST"
           headers: '{ "Content-Type": "application/json", "Authorization": "${{ secrets.FOUNDRY_API_TOKEN }}" }'
           accept: 200
-          body: '{"id": ${{ github.repository }}, "dry-run": false, "release": { "version": "${{ github.event.release.tag_name }}", "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json", "notes": "https://github.com/gioppoluca/${{ github.repository }}/blob/master/CHANGELOG.md", "compatibility": { "minimum": "11", "verified": "12", "maximum": "12" } } }'
+          body: '{"id": "5e-spellblock-importer", "dry-run": false, "release": { "version": "${{ github.event.release.tag_name }}", "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json", "notes": "https://github.com/${{ github.repository }}/blob/master/CHANGELOG.md", "compatibility": { "minimum": "11", "verified": "12", "maximum": "12" } } }'
           log-response: true
       - name: "Use response"
         run: echo ${{ steps.foundry-api.outputs.response }}          
