@@ -31,6 +31,8 @@ Here is an example of a spellblock:
 When you are satisfied you can press the **Import** button and you will see the spell or item imported in your world.
 ![Imported Spell](doc/imported-spell.png)
 
+If the spell has a list of classes for which it is aviable the module will create a journal called "imported-spells" where it will create a set of pages for all classes with the inported spells added to the proper page.
+
 For items Weapons that have a subtype that matches an existing object in the SRD compendium it will clone the attributes from there to speed edit time, you will be able to alter the datails after the import without having to rewrite all the data of the weapon.
 
 ## Acknoledments

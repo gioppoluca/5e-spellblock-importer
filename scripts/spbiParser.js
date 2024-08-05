@@ -288,7 +288,7 @@ export class spbiParser {
 
         const spell = await Item.create(spellObj);
         spbiUtils.log(spell);
-        if (the_classes.length > 0) {
+        if ((the_classes.length > 0) && (foundry.utils.isNewerVersion(game.system.version, '2.4.1'))) {
 
             var spell_journal = game.journal.getName('imported-spells');
             console.log(spell_journal);
@@ -349,7 +349,7 @@ export class spbiParser {
                         arr.push(spell.uuid)
                         console.log(arr);
 
-                        var change = { system: { spells:  arr} }
+                        var change = { system: { spells: arr } }
                         console.log(change)
                         pagelist.update(change)
                         //spell_journal.getEmbeddedCollection('pages').update(pagelist.toJSON());
