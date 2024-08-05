@@ -260,11 +260,17 @@ export class spbiParser {
             };
         }
         rest = await this.mapLevelSchool(rest, spellObj);
+        console.log('executed mapLevelSchool')
         rest = await this.castingTime(rest, spellObj);
+        console.log('executed castingTime')
         rest = await this.duration(rest, spellObj);
+        console.log('executed duration')
         rest = await this.components(rest, spellObj);
+        console.log('executed components')
         rest = await this.range(rest, spellObj);
+        console.log('executed range')
         rest = await this.source(rest, spellObj);
+        console.log('executed source')
         // analyze classes as last
         const classes = this.#classes.exec(rest);
         var the_classes = [];
@@ -282,38 +288,74 @@ export class spbiParser {
 
         const spell = await Item.create(spellObj);
         spbiUtils.log(spell);
+        if (the_classes.length > 0) {
 
-        var spell_journal = game.journal.getName('imported-spells');
-        console.log(spell_journal);
-        console.log(the_classes);
-        if (!spell_journal) {
-            console.log("Creating journal");
-            spell_journal = await JournalEntry.create({
-                name: 'imported-spells',
-            });
+            var spell_journal = game.journal.getName('imported-spells');
             console.log(spell_journal);
             console.log(the_classes);
-            var spells = new Set();
-            spells.add(spell.uuid);
-            console.log(spells);
-            for (const theclass of the_classes) {
-                console.log(theclass);
-                var data = [{
-                    name: theclass,
-                    type: 'spells',
-                    system: {
-                        identifier: theclass,
-                        grouping: "level",
-                        type: "class",
-                        spells: { 0: spell.uuid },
-                    }
-                }];
-                var the_page = await spell_journal.createEmbeddedDocuments('JournalEntryPage', data);
-                //the_page.system.spells = new Set();
-                //the_page.system.spells.add(spell.uuid);
-            }
-        } else {
+            if (!spell_journal) {
+                console.log("Creating journal");
+                spell_journal = await JournalEntry.create({
+                    name: 'imported-spells',
+                });
+                console.log(spell_journal);
+                console.log(the_classes);
+                var spells = new Set();
+                spells.add(spell.uuid);
+                console.log(spells);
+                for (const theclass of the_classes) {
+                    console.log(theclass);
+                    var data = [{
+                        name: theclass,
+                        type: 'spells',
+                        system: {
+                            identifier: theclass,
+                            grouping: "level",
+                            type: "class",
+                            spells: { 0: spell.uuid },
+                        }
+                    }];
+                    var the_page = await spell_journal.createEmbeddedDocuments('JournalEntryPage', data);
+                    //the_page.system.spells = new Set();
+                    //the_page.system.spells.add(spell.uuid);
+                }
+            } else {
+                // journal exists
+                console.log('journal exists')
+                for (const theclass of the_classes) {
+                    console.log(theclass);
 
+                    var pagelist = spell_journal.getEmbeddedCollection('pages').getName(theclass);
+                    console.log(pagelist);
+                    if (!pagelist) {
+                        console.log('page for current class does not exists')
+                        var data = [{
+                            name: theclass,
+                            type: 'spells',
+                            system: {
+                                identifier: theclass,
+                                grouping: "level",
+                                type: "class",
+                                spells: { 0: spell.uuid },
+                            }
+                        }];
+                        var the_page = await spell_journal.createEmbeddedDocuments('JournalEntryPage', data);
+                    } else {
+                        console.log('page exists so I add it')
+                        //pagelist.system.spells.add(spell.uuid);
+                        console.log(pagelist);
+                        var arr = Array.from(pagelist.system.spells.values());
+                        console.log(arr);
+                        arr.push(spell.uuid)
+                        console.log(arr);
+
+                        var change = { system: { spells:  arr} }
+                        console.log(change)
+                        pagelist.update(change)
+                        //spell_journal.getEmbeddedCollection('pages').update(pagelist.toJSON());
+                    }
+                }
+            }
         }
         // Open the sheet.
         spell.sheet.render(true);
@@ -412,6 +454,7 @@ export class spbiParser {
         console.log(compReg);
         if (compReg) {
             if (foundry.utils.isNewerVersion(game.system.version, '2.4.1')) {
+                console.log('version after 2.4.1')
                 if (compReg.groups.vocal) {
                     spellObj.system.properties.add("vocal")
                 }
@@ -421,17 +464,21 @@ export class spbiParser {
                 if (compReg.groups.somatic) {
                     spellObj.system.properties.add("somatic")
                 }
+                console.log('checked svm')
                 if (compReg.groups.materials_inline) {
-                    spellObj.system.properties.add("material")
+
                     spellObj.system.materials.value = compReg.groups.materials_inline
                 } else {
+                    console.log('no material inline')
                     const matReg = this.#materials.exec(rest);
-                    if (matReg.groups.materials) {
+                    console.log(matReg);
+                    if (matReg?.groups?.materials) {
                         spellObj.system.materials.value = matReg.groups.materials;
+                        rest.replace(this.#materials, "")
                     }
-                    rest.replace(this.#materials, "")
                 }
             } else {
+                console.log('version 2.4.1 or earlier')
                 spellObj.system.components.vocal = compReg.groups.vocal ? true : false;
                 spellObj.system.components.material = compReg.groups.material ? true : false;
                 spellObj.system.components.somatic = compReg.groups.somatic ? true : false;
