@@ -1,4 +1,10 @@
 
+## [1.3.4] - 2024-08-10
+### :bug: Bug Fixes
+- [`84b741e`](https://github.com/gioppoluca/5e-spellblock-importer/commit/84b741e3739f35ccbed48bf589aa3de4767edb4c) - range missing mile on unit
+- [`069bf8e`](https://github.com/gioppoluca/5e-spellblock-importer/commit/069bf8e9b8f7c9ae9f0afc34ed62119f4dbdbac6) - CI not waiting enough
+
+
 ## [1.3.3] - 2024-08-05
 ### :bug: Bug Fixes
 - [`655b347`](https://github.com/gioppoluca/5e-spellblock-importer/commit/655b347aee1dc35572fddf1abb6ba607a9321339) - wrong ci
@@ -31,3 +37,4 @@
 [1.2.1]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.2.0...1.2.1
 [1.3.2]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.1...1.3.2
 [1.3.3]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.2...1.3.3
+[1.3.4]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.3...1.3.4
