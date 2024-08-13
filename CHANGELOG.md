@@ -1,4 +1,9 @@
 
+## [1.3.5] - 2024-08-13
+### :bug: Bug Fixes
+- [`fdbf808`](https://github.com/gioppoluca/5e-spellblock-importer/commit/fdbf8083b2cd94602ec4460cab40a0e51dc85ed0) - still variable data for range
+
+
 ## [1.3.4] - 2024-08-10
 ### :bug: Bug Fixes
 - [`84b741e`](https://github.com/gioppoluca/5e-spellblock-importer/commit/84b741e3739f35ccbed48bf589aa3de4767edb4c) - range missing mile on unit
@@ -38,3 +43,4 @@
 [1.3.2]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.1...1.3.2
 [1.3.3]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.2...1.3.3
 [1.3.4]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.3...1.3.4
+[1.3.5]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.4...1.3.5
