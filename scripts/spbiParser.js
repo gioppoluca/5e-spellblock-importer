@@ -11,7 +11,7 @@ export class spbiParser {
     static #materials = /(materials)[:\s]*((?<materials>.*))?/i
     static #classes = /(classes|Available for)[:\s]*((?<classes>.*))?/i
     static #source = /source:[ \t-]*(?<source>.*)/i
-    static #range = /(range:)[\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|mile|special, see below|special)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
+    static #range = /(range:)[\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|mile|special, see below|special|varies)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
     static #item = /^(?<type>ammunition|bomb|oil|poison|adventuring gear|wondrous item|potion|weapon|armor|ring|staff|wand)?[ ]?(\((?<subtype>firearm|longsword|tattoo|shield|[^)]*)\))?[, ]*(?<rarity>very rare|rare|uncommon|legendary|artifact)?[ ]?(\((?<attunement>requires attunement by a|requires attunement)[ ]?(?<attuning_class>.*)?\))?/i
 
@@ -62,6 +62,7 @@ export class spbiParser {
         "self": "self",
         "special": "spec",
         "special, see below": "spec",
+        "varies": "spec",
         "touch": "touch"
     };
     static targetAreaMap = {
