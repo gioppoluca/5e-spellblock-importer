@@ -11,7 +11,7 @@ export class spbiParser {
     static #materials = /(materials)[:\s]*((?<materials>.*))?/i
     static #classes = /(classes|Available for)[:\s]*((?<classes>.*))?/i
     static #source = /source:[ \t-]*(?<source>.*)/i
-    static #range = /(range:)[\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|touch|mile|special, see below|special|varies)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
+    static #range = /(range:)[\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|ft\.|ft|touch|mile|special, see below|special|varies)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|ft\.|ft|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
     static #item = /^(?<type>ammunition|bomb|oil|poison|adventuring gear|wondrous item|potion|weapon|armor|ring|staff|wand)?[ ]?(\((?<subtype>firearm|longsword|tattoo|shield|[^)]*)\))?[, ]*(?<rarity>very rare|rare|uncommon|legendary|artifact)?[ ]?(\((?<attunement>requires attunement by a|requires attunement)[ ]?(?<attuning_class>.*)?\))?/i
 
@@ -55,6 +55,8 @@ export class spbiParser {
         "any": "any",
         "feet": "ft",
         "foot": "ft",
+        "ft": "ft",
+        "ft.": "ft",
         "kilometers": "km",
         "meters": "m",
         "miles": "mi",
@@ -260,17 +262,47 @@ export class spbiParser {
                 folder: selectedFolderId
             };
         }
-        rest = await this.mapLevelSchool(rest, spellObj);
+        try {
+            rest = await this.mapLevelSchool(rest, spellObj);
+        } catch (error) {
+            console.error('Error in mapLevelSchool:', error);
+            ui.notifications.error(`error in parsing level or school`);
+        }
         console.log('executed mapLevelSchool')
-        rest = await this.castingTime(rest, spellObj);
+        try {
+            rest = await this.castingTime(rest, spellObj);
+        } catch (error) {
+            console.error('Error in mapLevelSchool:', error);
+            ui.notifications.error(`error in parsing cassting time`);
+        }
         console.log('executed castingTime')
-        rest = await this.duration(rest, spellObj);
+        try {
+            rest = await this.duration(rest, spellObj);
+        } catch (error) {
+            console.error('Error in mapLevelSchool:', error);
+            ui.notifications.error(`error in parsing duaration`);
+        }
         console.log('executed duration')
-        rest = await this.components(rest, spellObj);
+        try {
+            rest = await this.components(rest, spellObj);
+        } catch (error) {
+            console.error('Error in mapLevelSchool:', error);
+            ui.notifications.error(`error in parsing components`);
+        }
         console.log('executed components')
-        rest = await this.range(rest, spellObj);
+        try {
+            rest = await this.range(rest, spellObj);
+        } catch (error) {
+            console.error('Error in mapLevelSchool:', error);
+            ui.notifications.error(`error in parsing range`);
+        }
         console.log('executed range')
-        rest = await this.source(rest, spellObj);
+        try {
+            rest = await this.source(rest, spellObj);
+        } catch (error) {
+            console.error('Error in mapLevelSchool:', error);
+            ui.notifications.error(`error in parsing source`);
+        }
         console.log('executed source')
         // analyze classes as last
         const classes = this.#classes.exec(rest);
