@@ -1,4 +1,9 @@
 
+## [1.3.7] - 2024-08-26
+### :bug: Bug Fixes
+- [`74b7cad`](https://github.com/gioppoluca/5e-spellblock-importer/commit/74b7cad83ea2bcffbbec02a5e4c20c5569f48c99) - other range parsing problems
+
+
 ## [1.3.6] - 2024-08-25
 ### :bug: Bug Fixes
 - [`0a6a617`](https://github.com/gioppoluca/5e-spellblock-importer/commit/0a6a61732b3501be32b85285fd0dc195ec8b7786) - error parsing some ranges; added better error management
@@ -50,3 +55,4 @@
 [1.3.4]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.3...1.3.4
 [1.3.5]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.4...1.3.5
 [1.3.6]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.5...1.3.6
+[1.3.7]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.6...1.3.7
