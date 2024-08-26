@@ -5,19 +5,20 @@ import {
 
 export class spbiParser {
     static #spellLevelSchool = /^((?<level>\d+)?(nd|rd|st|th)?[-\t ]?(level|cantrip)?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?(\((?<ritual>ritual)\))?/i
-    static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action|minutes|reaction))/i
+    static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action|minutes|minute|reaction))/i
     static #duration = /(duration)[:\s]*(?<conc>concentration, up to|Concentration,)?\s?((?<amount>\d*)?\s?(?<time>permanent|until dispelled or triggered|until dispelled|special|hours|minutes|rounds|months|turns|years|round|minute|hour|month|turn|year|instantaneous))/i
     static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<materials_inline>.*)\))?/i
     static #materials = /(materials)[:\s]*((?<materials>.*))?/i
     static #classes = /(classes|Available for)[:\s]*((?<classes>.*))?/i
     static #source = /source:[ \t-]*(?<source>.*)/i
-    static #range = /(range:)[\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|ft\.|ft|touch|mile|special, see below|special|varies)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|ft\.|ft|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
+    static #range = /(range:)[\s]*(?<amount>\d+)?[\s,]*(?<units>self|feet|ft\.|ft|touch|mile|special, see below|Sight|special|varies)?[\s,]*(\(((?<area_amount>\d+)[\s,-]*(?<area_units>foot|ft\.|ft|mile)?[\s,]*(?<area_shape>radius|line)?)\))?/i
     static #text = /(\.\s?)/ig
     static #item = /^(?<type>ammunition|bomb|oil|poison|adventuring gear|wondrous item|potion|weapon|armor|ring|staff|wand)?[ ]?(\((?<subtype>firearm|longsword|tattoo|shield|[^)]*)\))?[, ]*(?<rarity>very rare|rare|uncommon|legendary|artifact)?[ ]?(\((?<attunement>requires attunement by a|requires attunement)[ ]?(?<attuning_class>.*)?\))?/i
 
     static activationMap = {
         "action": "action",
         "minutes": "minute",
+        "minute": "minute",
         "bonus action": "bonus",
         "reaction": "reaction"
     };
@@ -62,6 +63,7 @@ export class spbiParser {
         "miles": "mi",
         "mile": "mi",
         "self": "self",
+        "Sight": "spec",
         "special": "spec",
         "special, see below": "spec",
         "varies": "spec",
