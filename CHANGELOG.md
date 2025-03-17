@@ -1,4 +1,10 @@
 
+## [1.4.0] - 2025-03-17
+### :bug: Bug Fixes
+- [`7c6686d`](https://github.com/gioppoluca/5e-spellblock-importer/commit/7c6686dbe014edd54a9c028b333ac605bb77f94a) - managing rings and check for dnd 4.x *(commit by [@gioppoluca](https://github.com/gioppoluca))*
+- [`4498148`](https://github.com/gioppoluca/5e-spellblock-importer/commit/4498148a0d3ceb2eb080b0530fa22415674d77d0) - updated system compatibility *(commit by [@gioppoluca](https://github.com/gioppoluca))*
+
+
 ## [1.3.7] - 2024-08-26
 ### :bug: Bug Fixes
 - [`74b7cad`](https://github.com/gioppoluca/5e-spellblock-importer/commit/74b7cad83ea2bcffbbec02a5e4c20c5569f48c99) - other range parsing problems
@@ -56,3 +62,4 @@
 [1.3.5]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.4...1.3.5
 [1.3.6]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.5...1.3.6
 [1.3.7]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.6...1.3.7
+[1.4.0]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.7...1.4.0
