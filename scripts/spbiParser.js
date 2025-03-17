@@ -87,6 +87,7 @@ export class spbiParser {
         "scroll": { type: "consumable", img: "", subtype: "scroll", subtypekey: "consumableType" },
         "food": { type: "consumable", img: "", subtype: "food", subtypekey: "consumableType" },
         "wand": { type: "consumable", img: "", subtype: "wand", subtypekey: "consumableType" },
+        "ring": { type: "equipment", img: "", subtype: { baseItem: "", identifier: undefined, label: "Ring", value: "ring" }, subtypekey: "type" },
         "wondrous item": { type: "consumable", img: "", subtype: "trinket", subtypekey: "consumableType" }
     };
 
@@ -183,21 +184,29 @@ export class spbiParser {
                             itemObi.img = entity.img;
                         } else {
                             console.log("No entry found for subtype " + parsedItem.groups.subtype);
+                            if (workingMap.subtypekey == "armor") {
+                                var armorObj = {
+                                    value: null,
+                                    type: workingMap.subtype[parsedItem.groups.subtype] ? workingMap.subtype[parsedItem.groups.subtype] : "",
+                                    dex: null
+                                }
+                                itemObi.system[workingMap.subtypekey] = armorObj
+                            } else {
+                                itemObi.system[workingMap.subtypekey] = workingMap.subtype;
+                            }
+                        }
+                    } else {
+                        console.log("No entry found for subtype " + parsedItem.groups.subtype);
+                        if (workingMap.subtypekey == "armor") {
                             var armorObj = {
                                 value: null,
                                 type: workingMap.subtype[parsedItem.groups.subtype] ? workingMap.subtype[parsedItem.groups.subtype] : "",
                                 dex: null
                             }
                             itemObi.system[workingMap.subtypekey] = armorObj
+                        } else {
+                            itemObi.system[workingMap.subtypekey] = workingMap.subtype;
                         }
-                    } else {
-                        console.log("No entry found for subtype " + parsedItem.groups.subtype);
-                        var armorObj = {
-                            value: null,
-                            type: workingMap.subtype[parsedItem.groups.subtype] ? workingMap.subtype[parsedItem.groups.subtype] : "",
-                            dex: null
-                        }
-                        itemObi.system[workingMap.subtypekey] = armorObj
                     }
 
                     break;
