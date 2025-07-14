@@ -1,4 +1,13 @@
 
+## [1.13.0] - 2025-07-14
+### :sparkles: New Features
+- [`6b80417`](https://github.com/gioppoluca/5e-spellblock-importer/commit/6b80417ca55ec2d5655459de0f7f4d169cea198e) - v13 compatibility *(commit by [@gioppoluca](https://github.com/gioppoluca))*
+- [`c1cf7e5`](https://github.com/gioppoluca/5e-spellblock-importer/commit/c1cf7e574951aa0e1effe20ffd1722aad6257701) - v13 *(commit by [@gioppoluca](https://github.com/gioppoluca))*
+
+### :bug: Bug Fixes
+- [`1ef6cc3`](https://github.com/gioppoluca/5e-spellblock-importer/commit/1ef6cc36620dd1442c170ab92c535d576a93e309) - properly parse level when level is at the start and also ritual is in action *(commit by [@gioppoluca](https://github.com/gioppoluca))*
+
+
 ## [1.4.0] - 2025-03-17
 ### :bug: Bug Fixes
 - [`7c6686d`](https://github.com/gioppoluca/5e-spellblock-importer/commit/7c6686dbe014edd54a9c028b333ac605bb77f94a) - managing rings and check for dnd 4.x *(commit by [@gioppoluca](https://github.com/gioppoluca))*
@@ -63,3 +72,4 @@
 [1.3.6]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.5...1.3.6
 [1.3.7]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.6...1.3.7
 [1.4.0]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.7...1.4.0
+[1.13.0]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.4.0...1.13.0
