@@ -1,10 +1,6 @@
-![](https://img.shields.io/badge/Foundry-v10-informational)
-<!--- Downloads @ Latest Badge -->
-<!--- replace <user>/<repo> with your username/repository -->
+![](https://img.shields.io/badge/Foundry-v10-informational)![](https://img.shields.io/badge/Foundry-v13-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/gioppoluca/5e-spellblock-importer/latest/module.zip)
 
-<!--- Forge Bazaar Install % Badge -->
-<!--- replace <your-module-name> with the `name` in your manifest -->
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2F5e-spellblock-importer&colorB=4aa94a)
 
 # 5e Spellblock Importer
@@ -28,12 +24,16 @@ Remeber to choose in the **small dialog** if you are importing a spell or an ite
 The important thing is that the spell or item name **has** to be the first line of the block.
 Here is an example of a spellblock:
 ![Import Dialog with spell](doc/import-dialog-spell.png)
+As you can see there is no need for the text to start at the beginning of the line.
+The module should be able to parse different format of spells, but there could be something that it misses. In that case post the "offending" text as an issue here.
+
 When you are satisfied you can press the **Import** button and you will see the spell or item imported in your world.
+
 ![Imported Spell](doc/imported-spell.png)
 
-If the spell has a list of classes for which it is aviable the module will create a journal called "imported-spells" where it will create a set of pages for all classes with the inported spells added to the proper page.
+If the spell has a list of classes for which it is available the module will create a journal called "imported-spells" where it will create a set of pages for all classes with the imported spells added to the proper page.
 
-For items Weapons that have a subtype that matches an existing object in the SRD compendium it will clone the attributes from there to speed edit time, you will be able to alter the datails after the import without having to rewrite all the data of the weapon.
+For items Weapons that have a subtype that matches an existing object in the SRD compendium it will clone the attributes from there to speed edit time, you will be able to alter the details after the import without having to rewrite all the data of the weapon.
 
 ## Acknoledments
 Thanks to [ArcaneRoboBrain](https://foundryvtt.com/community/arcanerobobrain) for the creation of [5e Statblock importer](https://foundryvtt.com/packages/5e-statblock-importer) from which module i've taken code and inspiration.
