@@ -4,8 +4,8 @@ import {
 
 
 export class spbiParser {
-    static #spellLevelSchool = /^((?<level>\d+)?(nd|rd|st|th)?[-\t ]?(level|cantrip)?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?(\((?<ritual>ritual)\))?/i
-    static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action|minutes|minute|reaction))/i
+    static #spellLevelSchool = /^(?:level[ \t]*)?((?<level>\d+)?(nd|rd|st|th)?[-\t ]?(level|cantrip)?[ ]?)?(?<school>abjuration|conjuration|enchantment|divination|illusion|transmutation|necromancy|evocation)[ ]?(?<spelltype>spell|cantrip)?(\((?<ritual>ritual)\))?/i
+    static #castingTime = /(casting time)[:\s]*((?<amount>\d*)\s+(?<act>bonus action|action|minutes|minute|reaction))([\s]or[\s](?<ritual>ritual))?/i
     static #duration = /(duration)[:\s]*(?<conc>concentration, up to|Concentration,)?\s?((?<amount>\d*)?\s?(?<time>permanent|until dispelled or triggered|until dispelled|special|hours|minutes|rounds|months|turns|years|round|minute|hour|month|turn|year|instantaneous))/i
     static #comps = /(components)[:\s]*(?<vocal>v)?[\t ,]*(?<somatic>s)?[\t ,]*(?<material>m)?[\t ,]*(\((?<materials_inline>.*)\))?/i
     static #materials = /(materials)[:\s]*((?<materials>.*))?/i
@@ -453,6 +453,19 @@ export class spbiParser {
             activation.cost = castTime.groups.amount
             activation.type = this.activationMap[castTime.groups.act.toLowerCase()];
             spellObj.system.activation = activation
+            if (foundry.utils.isNewerVersion(game.system.version, '2.4.1')) {
+                // we need to check if we already have the ritual property since we could have set it in mapLevelSchool
+                if (!spellObj.system.properties.has("ritual")) {
+                    if (castTime.groups.ritual) {
+                        spellObj.system.properties.add("ritual")
+                    }
+                }
+            } else {
+                // we already ser ritual to false in the spellObj so if it true iot means we already set it in mapLevelSchool
+                if (!spellObj.system.components.ritual) {
+                    spellObj.system.components.ritual = castTime.groups.ritual ? true : false;
+                }
+            }
         }
         return rest.replace(this.#castingTime, "");
     }
