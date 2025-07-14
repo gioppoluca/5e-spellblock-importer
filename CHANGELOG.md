@@ -1,4 +1,9 @@
 
+## [1.13.1] - 2025-07-14
+### :bug: Bug Fixes
+- [`2c7af9d`](https://github.com/gioppoluca/5e-spellblock-importer/commit/2c7af9d5d77cd1ac87582d3482e753df2a9fd88b) - wrong tag in module *(commit by [@gioppoluca](https://github.com/gioppoluca))*
+
+
 ## [1.13.0] - 2025-07-14
 ### :sparkles: New Features
 - [`6b80417`](https://github.com/gioppoluca/5e-spellblock-importer/commit/6b80417ca55ec2d5655459de0f7f4d169cea198e) - v13 compatibility *(commit by [@gioppoluca](https://github.com/gioppoluca))*
@@ -73,3 +78,4 @@
 [1.3.7]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.6...1.3.7
 [1.4.0]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.3.7...1.4.0
 [1.13.0]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.4.0...1.13.0
+[1.13.1]: https://github.com/gioppoluca/5e-spellblock-importer/compare/1.13.0...1.13.1
